@@ -1,0 +1,78 @@
+name: CI/CD - Insecure Node App
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: 🧪 Ejecutar tests automatizados
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 📦 Instalar dependencias
+        run: npm ci
+
+      - name: 🧪 Ejecutar tests
+        run: npm test
+
+  lint:
+    name: 🧹 Análisis de estilo con ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 📦 Instalar dependencias
+        run: npm ci
+
+      - name: 🔍 Ejecutar ESLint
+        uses: stefanzweifel/npm-run-action@v1
+        with:
+          command: lint
+
+  audit:
+    name: 🔐 Análisis de vulnerabilidades en dependencias
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 📦 Instalar dependencias
+        run: npm ci
+
+      - name: 🔎 Ejecutar npm audit
+        uses: oke-py/npm-audit-action@v2
+        with:
+          audit_level: low
+
+  secrets:
+    name: 🕵️ Escaneo de secretos expuestos
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: 🕵️ Ejecutar GitLeaks
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          args: detect --source=. --verbose
