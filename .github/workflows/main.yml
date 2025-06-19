@@ -41,9 +41,7 @@ jobs:
         run: npm ci
 
       - name: 🔍 Ejecutar ESLint
-        uses: stefanzweifel/npm-run-action@v1
-        with:
-          command: lint
+        run: npx eslint .
 
   audit:
     name: 🔐 Análisis de vulnerabilidades en dependencias
@@ -63,6 +61,7 @@ jobs:
       - name: 🔎 Ejecutar npm audit
         uses: oke-py/npm-audit-action@v2
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           audit_level: low
 
   secrets:
@@ -74,5 +73,3 @@ jobs:
 
       - name: 🕵️ Ejecutar GitLeaks
         uses: gitleaks/gitleaks-action@v2
-        with:
-          args: detect --source=. --verbose
