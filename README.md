@@ -6,6 +6,9 @@ Este proyecto contiene una aplicación backend hecha en Node.js con Express,
 intencionalmente insegura y mal estructurada.
 El objetivo del trabajo se encuentra en la sección [Objetivo](#objetivo)
 
+## Badge
+![Estado del pipeline](https://github.com/cibarraleonel/insecure-node-app/actions/workflows/main.yml/badge.svg)
+
 ## Requerimientos
 
 * Node.js 22.16.x
